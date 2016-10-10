@@ -1,0 +1,54 @@
+/* Physical object */
+.board {
+  position: absolute;
+  width: 85rem;
+  height: 85rem;
+  top: 5%;
+  left: 5%;
+
+  box-sizing: border-box;
+  border: 0.2rem solid black;
+  line-height: 0;
+
+  background-color: #0a0a0a;
+  background-image: url(board.png);
+  background-position: 2.5rem 2.5rem;
+  background-repeat: no-repeat;
+}
+
+.led {
+  display: inline-block;
+  width: calc((100% / 64) - 0.4rem);
+  height: calc((100% / 64) - 0.4rem);
+  margin: calc((100% / 128) + 0.2rem);
+
+  box-sizing: border-box;
+  border: 0.1rem solid transparent;
+  border-radius: 2rem;
+
+  background-color: transparent;
+}
+
+
+/* Virtual object */
+.content {
+  position: absolute;
+  width: calc(100% - 5rem);
+  height: calc(100% - 5rem);
+  top: 2.5rem;
+  left: 2.5rem;
+  border: 0.1rem solid black;
+}
+
+.case {
+  float: left;
+  width: 10%;
+  height: 10%;
+
+  box-sizing: border-box;
+  border: 0.1rem solid black;
+
+  line-height: 0;
+  opacity: 0.1;
+}
+
