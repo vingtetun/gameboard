@@ -127,17 +127,24 @@ function turn(turnInt) {
   switch (turnInt) {
     case 0:
       paintBorder(255,0,0);
+      movement();
       break;
 
     case 1:
       paintBorder(0,255,0);
+      movement();
       break;
 
     case 2:
       paintBorder(0,0,255);      
+      movement();
   }
 
 
 }
 
 turn(2);
+
+function movement() {
+  return Math.floor(Math.random() * 5)+ 1;
+}
