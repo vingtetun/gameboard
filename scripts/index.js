@@ -31,7 +31,13 @@
 
 const Hardware = require('./scripts/hardware').Hardware;
 const HardwareProxy = require('./scripts/proxy').HardwareProxy;
-var turnInt = 0;
+
+//Player position global variables
+var player1position = 0;
+var player2position = 0;
+var player3position = 0;
+
+//The array to represent gameboard squares
 var squares = [];
 squares[0]= "start";
 
@@ -39,124 +45,124 @@ squares[0]= "start";
 //This determines the square that is the parent of the LEDS and helps us know which LEDs to light up.
 
 //Squares in Row 1
-squares[1] = [2,4,2,4];
-squares[2] = [5,7,2,4];
-squares[3] = [8,10,2,4];
-squares[4] = [11,13,2,4];
-squares[5] = [14,16,2,4];
-squares[6] = [17,19,2,4];
-squares[7] = [20,22,2,4];
-squares[8] = [23,25,2,4];
-squares[9] = [26,28,2,4];
-squares[10] = [29,31,2,4];
+squares[1] = [1,3,1,3];
+squares[2] = [4,6,1,3];
+squares[3] = [7,9,1,3];
+squares[4] = [10,12,1,3];
+squares[5] = [13,15,1,3];
+squares[6] = [16,18,1,3];
+squares[7] = [19,21,1,3];
+squares[8] = [22,24,1,3];
+squares[9] = [25,27,1,3];
+squares[10] = [28,30,1,3];
 
 //Squares in Row 2
-squares[11] = [29,31,5,7];
-squares[12] = [26,28,5,7];
-squares[13] = [23,25,5,7];
-squares[14] = [20,22,5,7];
-squares[15] = [17,19,5,7];
-squares[16] = [14,16,5,7];
-squares[17] = [11,13,5,7];
-squares[18] = [8,10,5,7];
-squares[19]= [5,7,5,7];
-squares[20] = [2,4,5,7];
+squares[11] = [28,30,4,6];
+squares[12] = [25,27,4,6];
+squares[13] = [22,24,4,6];
+squares[14] = [19,21,4,6];
+squares[15] = [16,18,4,6];
+squares[16] = [13,15,4,6];
+squares[17] = [10,12,4,6];
+squares[18] = [7,9,4,6];
+squares[19]= [4,6,4,6];
+squares[20] = [1,3,4,6];
 
 //Squares in Row 3
-squares[21] = [2,4,8,10];
-squares[22] = [5,7,8,10];
-squares[23] = [8,10,8,10];
-squares[24] = [11,13,8,10];
-squares[25] = [14,16,8,10];
-squares[26] = [17,19,8,10];
-squares[27] = [20,22,8,10];
-squares[28] = [23,25,8,10];
-squares[29] = [26,28,8,10];
-squares[30] = [29,31,8,10];
+squares[21] = [1,3,7,9];
+squares[22] = [4,6,7,9];
+squares[23] = [7,9,7,9];
+squares[24] = [10,12,7,9];
+squares[25] = [13,15,7,9];
+squares[26] = [16,18,7,9];
+squares[27] = [19,21,7,9];
+squares[28] = [22,24,7,9];
+squares[29] = [25,27,7,9];
+squares[30] = [28,30,7,9];
 
 //Squares in Row 4
-squares[31] = [29,31,11,13];
-squares[32] = [26,28,11,13];
-squares[33] = [23,25,11,13];
-squares[34] = [20,22,11,13];
-squares[35] = [17,19,11,13];
-squares[36] = [14,16,11,13];
-squares[37] = [11,13,11,13];
-squares[38] = [8,10,11,13];
-squares[39] = [5,7,11,13];
-squares[40] = [2,4,11,13];
+squares[31] = [28,30,10,12];
+squares[32] = [25,27,10,12];
+squares[33] = [22,24,10,12];
+squares[34] = [19,21,10,12];
+squares[35] = [16,18,10,12];
+squares[36] = [13,15,10,12];
+squares[37] = [10,12,10,12];
+squares[38] = [7,9,10,12];
+squares[39] = [4,6,10,12];
+squares[40] = [1,3,10,12];
 
 //Squares in Row 5
-squares[41] = [2,4,14,16];
-squares[42] = [5,7,14,16];
-squares[43] = [8,10,14,16];
-squares[44] = [11,13,14,16];
-squares[45] = [14,16,14,16];
-squares[46] = [17,19,14,16];
-squares[47] = [20,22,14,16];
-squares[48] = [23,25,14,16];
-squares[49] = [26,28,14,16];
-squares[50] = [29,31,14,16];
+squares[41] = [1,3,13,15];
+squares[42] = [4,6,13,15];
+squares[43] = [7,9,13,15];
+squares[44] = [10,12,13,15];
+squares[45] = [13,15,13,15];
+squares[46] = [16,18,13,15];
+squares[47] = [19,21,13,15];
+squares[48] = [22,24,13,15];
+squares[49] = [25,27,13,15];
+squares[50] = [28,30,13,15];
 
 //Squares in Row 6
-squares[51] = [29,31,17,19];
-squares[52] = [26,28,17,19];
-squares[53] = [23,25,17,19];
-squares[54] = [20,22,17,19];
-squares[55] = [17,19,17,19];
-squares[56] = [14,16,17,19];
-squares[57] = [11,13,17,19];
-squares[58] = [8,10,17,19];
-squares[59] = [5,7,17,19];
-squares[60] = [2,4,17,19];
+squares[51] = [28,30,16,18];
+squares[52] = [25,27,16,18];
+squares[53] = [22,24,16,18];
+squares[54] = [19,21,16,18];
+squares[55] = [16,18,16,18];
+squares[56] = [13,15,16,18];
+squares[57] = [10,12,16,18];
+squares[58] = [7,9,16,18];
+squares[59] = [4,6,16,18];
+squares[60] = [1,3,16,18];
 
 //Squares in Row 7
-squares[61] = [2,4,20,22];
-squares[62] = [5,7,20,22];
-squares[63] = [8,10,20,22];
-squares[64] = [11,13,20,22];
-squares[65] = [14,16,20,22];
-squares[66] = [17,19,20,22];
-squares[67] = [20,22,20,22];
-squares[68] = [23,25,20,22];
-squares[69] = [26,28,20,22];
-squares[70] = [29,31,20,22];
+squares[61] = [1,3,19,21];
+squares[62] = [4,6,19,21];
+squares[63] = [7,9,19,21];
+squares[64] = [10,12,19,21];
+squares[65] = [13,15,19,21];
+squares[66] = [16,18,19,21];
+squares[67] = [19,21,19,21];
+squares[68] = [22,24,19,21];
+squares[69] = [25,27,19,21];
+squares[70] = [28,30,19,21];
 
 //Squares in Row 8
-squares[71] = [29,31,23,25];
-squares[72] = [26,28,23,25];
-squares[73] = [23,25,23,25];
-squares[74] = [20,22,23,25];
-squares[75] = [17,19,23,25];
-squares[76] = [14,16,23,25];
-squares[77] = [11,13,23,25];
-squares[78] = [8,10,23,25];
-squares[79] = [5,7,23,25];
-squares[80] = [2,4,23,25];
+squares[71] = [28,30,22,24];
+squares[72] = [25,27,22,24];
+squares[73] = [22,24,22,24];
+squares[74] = [19,21,22,24];
+squares[75] = [16,18,22,24];
+squares[76] = [13,15,22,24];
+squares[77] = [10,12,22,24];
+squares[78] = [7,9,22,24];
+squares[79] = [4,6,22,24];
+squares[80] = [1,3,22,24];
 
 //Squares in Row 9
-squares[81] = [2,4,26,28];
-squares[82] = [5,7,26,28];
-squares[83] = [8,10,26,28];
-squares[84] = [11,13,26,28];
-squares[85] = [14,16,26,28;
-squares[86] = [17,19,26,28];
-squares[87] = [20,22,26,28];
-squares[88] = [23,25,26,28];
-squares[89] = [26,28,26,28];
-squares[90] = [29,31,26,28];
+squares[81] = [1,3,25,27];
+squares[82] = [4,6,25,27];
+squares[83] = [7,9,25,27];
+squares[84] = [10,12,25,27];
+squares[85] = [13,15,25,27];
+squares[86] = [16,18,25,27];
+squares[87] = [19,21,25,27];
+squares[88] = [22,24,25,27];
+squares[89] = [25,27,25,27];
+squares[90] = [28,30,25,27];
 
 //Squares in Row 10
-squares[91] = [29,31,29,31];
-squares[92] = [26,28,29,31];
-squares[93] = [23,25,29,31];
-squares[94] = [20,22,29,31];
-squares[95] = [17,19,29,31];
-squares[96] = [14,16,29,31];
-squares[97] = [11,13,29,31];
-squares[98] = [8,10,29,31];
-squares[99] = [5,7,29,31];
-squares[100] = [2,4,29,31];
+squares[91] = [28,30,28,30];
+squares[92] = [25,27,28,30];
+squares[93] = [22,24,28,30];
+squares[94] = [19,21,28,30];
+squares[95] = [16,18,28,30];
+squares[96] = [13,15,28,30];
+squares[97] = [10,12,28,30];
+squares[98] = [7,9,28,30];
+squares[99] = [4,6,28,30];
+squares[100] = [1,3,28,30];
 
 
 let kBoard = {
@@ -247,29 +253,43 @@ function paintBorder(r, g, b) {
   HardwareProxy.write(buffer);
 }
 
+function paintSquare(r,g,b,destinationSquare) {
+
+  let buffer = new Uint8Array(HardwareProxy.size());
+  var y1 = destinationSquare[2];
+  var y2 = destinationSquare[3];
+
+  for (var i = y1; i<y2; i++) {
+      updateBufferRow(buffer, i, r, g, b);
+      HardwareProxy.write(buffer);
+  }
+}
+
 //paintBorder(255, 0, 0);
 
 function turn(turnInt) {
   switch (turnInt) {
     case 0:
       paintBorder(255,0,0);
-      movement();
+      player1position = player1position + movement();
+      console.log(player1position);
+      paintSquare(255,0,0,player1position);
       break;
 
     case 1:
       paintBorder(0,255,0);
-      movement();
+      player2position = player2position + movement();
       break;
 
     case 2:
       paintBorder(0,0,255);      
-      movement();
+      player3position = player3position + movement();
   }
 
 
 }
 
-turn(2);
+turn(0);
 
 function movement() {
   return Math.floor(Math.random() * 5)+ 1;
