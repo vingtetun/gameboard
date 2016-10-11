@@ -31,6 +31,7 @@
 
 const Hardware = require('./scripts/hardware').Hardware;
 const HardwareProxy = require('./scripts/proxy').HardwareProxy;
+var turnInt = 0;
 
 let kBoard = {
   width: HardwareProxy.Constants.Width,
@@ -120,4 +121,23 @@ function paintBorder(r, g, b) {
   HardwareProxy.write(buffer);
 }
 
-paintBorder(255, 0, 0);
+//paintBorder(255, 0, 0);
+
+function turn(turnInt) {
+  switch (turnInt) {
+    case 0:
+      paintBorder(255,0,0);
+      break;
+
+    case 1:
+      paintBorder(0,255,0);
+      break;
+
+    case 2:
+      paintBorder(0,0,255);      
+  }
+
+
+}
+
+turn(2);
