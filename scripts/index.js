@@ -272,9 +272,9 @@ function turn(turnInt) {
   switch (turnInt) {
     case 0:
       paintBorder(255,0,0);
-      player1position = player1position + movement();
-      console.log(player1position);
-      paintSquare(255,0,0,player1position);
+      var player1position2 = player1position + movement();
+      console.log(player1position2);
+      paintSquare(255,0,0,player1position2);
       break;
 
     case 1:
