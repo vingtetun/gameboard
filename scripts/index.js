@@ -39,7 +39,7 @@ var player3position = 0;
 
 //The array to represent gameboard squares
 var squares = [];
-squares[0]= "start";
+squares[0]= [0,0,0,0];
 
 //squares[number of square] = [xLEDStart, xLEDFinish, yLEDStart, yLEDFinish);
 //This determines the square that is the parent of the LEDS and helps us know which LEDs to light up.
@@ -256,8 +256,9 @@ function paintBorder(r, g, b) {
 function paintSquare(r,g,b,destinationSquare) {
 
   let buffer = new Uint8Array(HardwareProxy.size());
-  var y1 = destinationSquare[2];
-  var y2 = destinationSquare[3];
+  var y1 = squares[destinationSquare][2];
+  var y2 = squares[destinationSquare][3];
+  console.log(y1);
 
   for (var i = y1; i<y2; i++) {
       updateBufferRow(buffer, i, r, g, b);
