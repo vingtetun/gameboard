@@ -227,13 +227,14 @@ function turn(turnInt) {
     case 0:
       paintBorder(255,0,0);
       var turnMove = rng();
+      //Debug Player 1 Position
+      console.log("You Start the turn at: " + player1position);
+      console.log("You rolled a: " + turnMove);
+      console.log("Move to space #: " + (player1position + turnMove));
       //Update player position
       player1position += turnMove;
-      //Debug Player 1 Position
-      console.log(player1position);
       // Multiple case updates
-      paintCases(1, turnMove + 1, 255, 0, 0);
-      console.log(turnMove);
+      paintCases(player1position, turnMove + player1position, 255, 0, 0);
       break;
 
     case 1:
@@ -242,18 +243,16 @@ function turn(turnInt) {
       break;
 
     case 2:
-      paintBorder(0,0,255);      
+      paintBorder(0,0,255);
       player3position = player3position + movement();
   }
 }
 
 //Automation Timer
-function runTimer() {
-    window.setInterval(playGame, 3000);
-}
 
 function playGame() {
     turn(0);
+    setTimeout(playGame, 6000);
 }
 
 // Single case update
@@ -264,4 +263,4 @@ function rng() {
 }
 
 //Run the game timer
-runTimer();
+playGame();
