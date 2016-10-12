@@ -252,7 +252,15 @@ function turn(turnInt) {
 
     case 2:
       paintBorder(255,140,0);
-      player3position = player3position + movement();
+      var turnMove = rng();
+      //Debug Player 3 Position
+      console.log("Player 3 starts on: " + player3position);
+      console.log("Player 3 rolled a: " + turnMove);
+      console.log("Player 3 move to space #: " + (player3position + turnMove));
+      // Multiple case updates
+      paintCases(player3position, turnMove + player3position, 255, 140, 0);
+      //Update player position
+      player3position += turnMove;
   }
 }
 
@@ -261,7 +269,8 @@ function turn(turnInt) {
 function playGame() {
     turn(0);
     setTimeout("turn(1);", 6000);
-    setTimeout(playGame, 12000);
+    setTimeout("turn(2);", 12000);
+    setTimeout(playGame, 18000);
 }
 
 // Single case update
