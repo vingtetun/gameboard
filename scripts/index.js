@@ -43,6 +43,12 @@ let kBoard = {
   }
 };
 
+
+//Player position global variables
+var player1position = 0;
+var player2position = 0;
+var player3position = 0;
+
 // Helpers
 function updateLedById(buffer, id, r, g, b) {
   let pixelSize = Hardware.Constants.PixelSize;
@@ -214,6 +220,42 @@ function paintCases(begin, end, r, g, b) {
   HardwareProxy.write(buffer);
 }
 
+
+//Turn Logic
+function turn(turnInt) {
+  switch (turnInt) {
+    case 0:
+      paintBorder(255,0,0);
+      var turnMove = rng();
+      //Update player position
+      player1position += turnMove;
+      //Debug Player 1 Position
+      console.log(player1position);
+      // Multiple case updates
+      paintCases(1, turnMove + 1, 255, 0, 0);
+      console.log(turnMove);
+      break;
+
+    case 1:
+      paintBorder(0,255,0);
+      player2position = player2position + movement();
+      break;
+
+    case 2:
+      paintBorder(0,0,255);      
+      player3position = player3position + movement();
+  }
+}
+
+//Automation Timer
+function runTimer() {
+    window.setInterval(playGame, 3000);
+}
+
+function playGame() {
+    turn(0);
+}
+
 // Single case update
 //paintCase(3, 255, 255, 0);
 
@@ -221,7 +263,5 @@ function rng() {
   return Math.floor(Math.random() * 5)+ 1;
 }
 
-var TurnMove = rng();
-// Multiple case updates
-paintCases(1, TurnMove + 1, 255, 0, 0);
-console.log(TurnMove);
+//Run the game timer
+runTimer();
