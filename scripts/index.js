@@ -231,10 +231,10 @@ function turn(turnInt) {
       console.log("You Start the turn at: " + player1position);
       console.log("You rolled a: " + turnMove);
       console.log("Move to space #: " + (player1position + turnMove));
-      //Update player position
-      player1position += turnMove;
       // Multiple case updates
       paintCases(player1position, turnMove + player1position, 255, 0, 0);
+      //Update player position
+      player1position += turnMove;
       break;
 
     case 1:
