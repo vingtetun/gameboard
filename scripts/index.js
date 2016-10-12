@@ -34,10 +34,23 @@ const HardwareProxy = require('./scripts/proxy').HardwareProxy;
 
 let kBoard = {
   width: HardwareProxy.Constants.Width,
-  height: HardwareProxy.Constants.Height
+  height: HardwareProxy.Constants.Height,
+  offset: {
+    left: 1,
+    bottom: 1 * HardwareProxy.Constants.Width,
+    right: 1,
+    top: 1 * HardwareProxy.Constants.Width,
+  }
 };
 
 // Helpers
+function updateLedById(buffer, id, r, g, b) {
+  let pixelSize = Hardware.Constants.PixelSize;
+  buffer[id * pixelSize + 0] = r;
+  buffer[id * pixelSize + 1] = g;
+  buffer[id * pixelSize + 2] = b;
+}
+
 function updateBufferRow(buffer, index, r, g, b) {
   let pixelSize = Hardware.Constants.PixelSize;
   let begin = index * kBoard.width * pixelSize;
@@ -120,4 +133,89 @@ function paintBorder(r, g, b) {
   HardwareProxy.write(buffer);
 }
 
-paintBorder(255, 0, 0);
+function getIdsForCase(id) {
+  // While the physical board is 32x32 pixels, the game board itself is a 10x10
+  // case. Each case is then 3x3 pixels wide, and there is an offset of 1 pixel
+  // on every sides.
+  //
+  // The game board coordinate system is also starting bottom-left, while our
+  // physical board is top-left. Which means we need to apply a transformation
+  // from one coordinate system to another.
+  //
+  // Lastly, the game board ordering of rows and columns follow a 'snake'
+  // pattern, where the end column of a row map to the start column of the next
+  // row.
+
+  // Step 0. Apply the side offsets to our coordinates
+  let offset = kBoard.offset.top + kBoard.offset.left;
+
+  // Step 1. Convert the board row/column information to a physical coord.
+  //         Going from 10x10 coordinates system starting bottom-left, to
+  //         a 32x32 coordinates system starting top-left
+
+  // The board ids are going from 1-100, while the array indexes are going
+  // 0-99.
+  id = id - 1;
+
+  // Split the absolute number to row/column information. This way they can be
+  // worked on individually.
+  let row = Math.floor(id / 10);
+  let column = id % 10;
+
+  // Invert column depending if the row is odd or even. This is to match the
+  // behavior of our board plate.
+  if (row % 2) {
+    column = 9 - column;
+  }
+  row = 9 - row;
+
+  // Translate row/colum coordinate to the physical coordinate
+  column = column * 3;
+  row = row * 3 * kBoard.width;
+
+  // Step 3. Calculate the starting led for our case
+  let coordinate = offset + row + column;
+
+
+  // Step 4. Finally returns a 3x3 square leds id to represent a particular
+  //         case.
+  let rv = [];
+
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      rv.push(coordinate + (i * kBoard.width) + j);
+    }
+  }
+
+  return rv;
+}
+
+function updateCase(buffer, id, r, g, b) {
+  getIdsForCase(id).forEach(function(id) {
+    updateLedById(buffer, id, r, g, b);
+  });
+}
+
+function paintCase(id, r, g, b) {
+  let buffer = new Uint8Array(HardwareProxy.size());
+
+  updateCase(buffer, id, r, g, b);
+
+  HardwareProxy.write(buffer);
+}
+
+function paintCases(begin, end, r, g, b) {
+  let buffer = new Uint8Array(HardwareProxy.size());
+
+  for (let i = begin; i <= end; i++) {
+    updateCase(buffer, i, r, g, b);
+  }
+
+  HardwareProxy.write(buffer);
+}
+
+// Single case update
+//paintCase(3, 255, 255, 0);
+
+// Multiple case updates
+paintCases(7, 31, 255, 0, 0);
