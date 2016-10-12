@@ -54,6 +54,9 @@ var player3position = 1;
 //Game Won Boolean
 var isGameWon = false;
 
+//Special Cases 
+var specialCases = [4,15,8,31,17,7,20,38,28,84,40,42,51,67,53,34,62,19,63,81,64,60,71,91,87,24,93,69,95,76,99,61];
+
 // Helpers
 function updateLedById(buffer, id, r, g, b) {
   let pixelSize = Hardware.Constants.PixelSize;
@@ -241,6 +244,20 @@ function turn(turnInt) {
       paintCases(player1position, turnMove + player1position, 255, 0, 0);
       //Update player position
       player1position += turnMove;
+
+      //Check to see if we landed on a chute or ladder, and if so, do an animation
+      var isSpecialCase = checkSpecialCase(player1position);
+      if (isSpecialCase) {
+        if (isSpecialCase < player1position) {
+          paintCases(isSpecialCase, isSpecialCase, 255, 0, 0);
+          }
+        else {
+        paintCases(player1position, isSpecialCase, 255, 0, 0);
+        }
+        player1position = isSpecialCase;
+      }
+
+      //Check if we have won the game
       checkWin(player1position, "Player 1");
       break;
 
@@ -255,6 +272,23 @@ function turn(turnInt) {
       paintCases(player2position, turnMove + player2position, 0, 0, 255);
       //Update player position
       player2position += turnMove;
+
+      //Check to see if we landed on a chute or ladder, and if so, do an animation
+      var isSpecialCase = checkSpecialCase(player2position);
+      if (isSpecialCase) {
+        //We cannot paint backwards yet so we will just paint a square
+        if (isSpecialCase < player2position) {
+          paintCases(isSpecialCase, isSpecialCase, 0, 0, 255);
+          }
+
+        else {
+        paintCases(player2position, isSpecialCase, 0, 0, 255);
+      }
+
+
+        player2position = isSpecialCase;
+      }
+      //Check if we have won the game
       checkWin(player2position, "Player 2");
       break;
 
@@ -269,7 +303,34 @@ function turn(turnInt) {
       paintCases(player3position, turnMove + player3position, 255, 140, 0);
       //Update player position
       player3position += turnMove;
+
+      //Check to see if we landed on a chute or ladder, and if so, do an animation
+      var isSpecialCase = checkSpecialCase(player3position);
+      if (isSpecialCase) {
+       if (isSpecialCase < player3position) {
+         paintCases(isSpecialCase, isSpecialCase, 255, 140, 0);
+        }
+
+        else {
+        paintCases(player3position, isSpecialCase , 255, 140, 0);
+        }
+
+        player3position = isSpecialCase;
+      }
+
+      //Check if we have won the game
       checkWin(player3position, "Player 3");
+  }
+}
+
+//Check if a special case like a chutes or ladders
+function checkSpecialCase (pos) {
+  for (var i=0; i<specialCases.length; i++) {
+    if (pos == specialCases[i]) {
+        return specialCases[i+1];
+        break;
+    }
+    i= i+1;
   }
 }
 
@@ -287,12 +348,12 @@ function playGame() {
     if (isGameWon == false) {
     turn(0);
     if (isGameWon == false){
-    setTimeout("turn(1);", 1000);
+    setTimeout("turn(1);", 2000);
     }
     if(isGameWon==false){
-    setTimeout("turn(2);", 3000);
+    setTimeout("turn(2);", 4000);
    }
-    setTimeout(playGame, 5000);
+    setTimeout(playGame, 6000);
   }
 
   else {
