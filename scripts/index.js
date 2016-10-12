@@ -45,9 +45,9 @@ let kBoard = {
 
 
 //Player position global variables
-var player1position = 0;
-var player2position = 0;
-var player3position = 0;
+var player1position = 1;
+var player2position = 1;
+var player3position = 1;
 
 // Helpers
 function updateLedById(buffer, id, r, g, b) {
@@ -228,9 +228,9 @@ function turn(turnInt) {
       paintBorder(255,0,0);
       var turnMove = rng();
       //Debug Player 1 Position
-      console.log("You Start the turn at: " + player1position);
-      console.log("You rolled a: " + turnMove);
-      console.log("Move to space #: " + (player1position + turnMove));
+      console.log("Player 1 starts on: " + player1position);
+      console.log("Player 1 rolled a: " + turnMove);
+      console.log("Player 1 move to space #: " + (player1position + turnMove));
       // Multiple case updates
       paintCases(player1position, turnMove + player1position, 255, 0, 0);
       //Update player position
@@ -238,12 +238,20 @@ function turn(turnInt) {
       break;
 
     case 1:
-      paintBorder(0,255,0);
-      player2position = player2position + movement();
+      paintBorder(0,0,255);
+      var turnMove = rng();
+      //Debug Player 2 Position
+      console.log("Player 2 starts on: " + player2position);
+      console.log("Player 2 rolled a: " + turnMove);
+      console.log("Player 2 move to space #: " + (player2position + turnMove));
+      // Multiple case updates
+      paintCases(player2position, turnMove + player2position, 0, 0, 255);
+      //Update player position
+      player2position += turnMove;
       break;
 
     case 2:
-      paintBorder(0,0,255);
+      paintBorder(255,140,0);
       player3position = player3position + movement();
   }
 }
@@ -252,7 +260,8 @@ function turn(turnInt) {
 
 function playGame() {
     turn(0);
-    setTimeout(playGame, 6000);
+    setTimeout("turn(1);", 6000);
+    setTimeout(playGame, 12000);
 }
 
 // Single case update
