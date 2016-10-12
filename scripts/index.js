@@ -11,7 +11,7 @@
 //
 // The board communicates using a single protocol call. The protocol
 // expects a unsigned int 8 buffer with the state of every led.
-// 
+//
 // The buffer contains the information for the 1024 leds, and the
 // value of each components (r, g, b). The buffer size is then 3072 (1024 * 3).
 //
@@ -217,5 +217,11 @@ function paintCases(begin, end, r, g, b) {
 // Single case update
 //paintCase(3, 255, 255, 0);
 
+function rng() {
+  return Math.floor(Math.random() * 5)+ 1;
+}
+
+var TurnMove = rng();
 // Multiple case updates
-paintCases(7, 31, 255, 0, 0);
+paintCases(1, TurnMove + 1, 255, 0, 0);
+console.log(TurnMove);
