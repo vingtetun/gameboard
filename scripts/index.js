@@ -51,6 +51,9 @@ var player1position = 1;
 var player2position = 1;
 var player3position = 1;
 
+//Game Won Boolean
+var isGameWon = false;
+
 // Helpers
 function updateLedById(buffer, id, r, g, b) {
   let pixelSize = Hardware.Constants.PixelSize;
@@ -225,6 +228,7 @@ function paintCases(begin, end, r, g, b) {
 
 //Turn Logic
 function turn(turnInt) {
+
   switch (turnInt) {
     case 0:
       paintBorder(255,0,0);
@@ -237,6 +241,7 @@ function turn(turnInt) {
       paintCases(player1position, turnMove + player1position, 255, 0, 0);
       //Update player position
       player1position += turnMove;
+      checkWin(player1position, "Player 1");
       break;
 
     case 1:
@@ -250,6 +255,7 @@ function turn(turnInt) {
       paintCases(player2position, turnMove + player2position, 0, 0, 255);
       //Update player position
       player2position += turnMove;
+      checkWin(player2position, "Player 2");
       break;
 
     case 2:
@@ -263,16 +269,35 @@ function turn(turnInt) {
       paintCases(player3position, turnMove + player3position, 255, 140, 0);
       //Update player position
       player3position += turnMove;
+      checkWin(player3position, "Player 3");
+  }
+}
+
+//Check if won game
+function checkWin(num, str) {
+  if (num >=100) {
+    alert("CONGRATULATIONS, " + str + ", YOU WON!!!!! WOW!!!!");
+    isGameWon = true;
   }
 }
 
 //Automation Timer
 
 function playGame() {
+    if (isGameWon == false) {
     turn(0);
-    setTimeout("turn(1);", 6000);
-    setTimeout("turn(2);", 12000);
-    setTimeout(playGame, 18000);
+    if (isGameWon == false){
+    setTimeout("turn(1);", 1000);
+    }
+    if(isGameWon==false){
+    setTimeout("turn(2);", 3000);
+   }
+    setTimeout(playGame, 5000);
+  }
+
+  else {
+    alert("Indeed, someone has won so the game is over..");
+  }
 }
 
 // Single case update
