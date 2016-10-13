@@ -282,9 +282,12 @@ function turn(turnInt) {
     players[turnInt].position += turnMove;
 
     //Check to see if we landed on a chute or ladder, and if so, do an animation
-    var isSpecialCase = checkSpecialCase(players[turnInt].position);
-          updateCases(turnBuffer,isSpecialCase, isSpecialCase, players[turnInt].r, players[turnInt].g, players[turnInt].b);
 
+    var isSpecialCase = checkSpecialCase(players[turnInt].position);
+      if (isSpecialCase){
+          updateCases(turnBuffer,isSpecialCase, isSpecialCase, players[turnInt].r, players[turnInt].g, players[turnInt].b);
+          players[turnInt].position = isSpecialCase;
+        }
       //Check if we have won the game
 
       var winStr = "Player " + (players[turnInt].playerId + 1).toString();
