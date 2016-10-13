@@ -66,7 +66,7 @@ var player3position = 1;
 //Game Won Boolean
 var isGameWon = false;
 
-//Special Cases 
+//Special Cases
 var specialCases = [4,15,8,31,17,7,20,38,28,84,40,42,51,67,53,34,62,19,63,81,64,60,71,91,87,24,93,69,95,76,99,61];
 
 // Helpers
@@ -244,9 +244,9 @@ function paintCases(begin, end, r, g, b) {
 //Turn Logic
 function turn(turnInt) {
 
-  
+
     paintBorder(players[turnInt].r, players[turnInt].g, players[turnInt].b);
-    var turnMove = rng();
+    var turnMove = diceRoll();
     console.log("Player " + (players[turnInt].playerId +1) + " starts on: " + players[turnInt].position);
     console.log("Player "  + (players[turnInt].playerId+1) + " rolled a: " + turnMove);
     console.log("Player " + (players[turnInt].playerId+1) + " move to space #: " + (players[turnInt].position + turnMove));
@@ -255,21 +255,13 @@ function turn(turnInt) {
 
     //Check to see if we landed on a chute or ladder, and if so, do an animation
     var isSpecialCase = checkSpecialCase(players[turnInt].position);
-      if (isSpecialCase) {
-        if (isSpecialCase < players[turnInt].position) {
           paintCases(isSpecialCase, isSpecialCase, players[turnInt].r, players[turnInt].g, players[turnInt].b);
-          }
-        else {
-        paintCases(players[turnInt].position, isSpecialCase, players[turnInt].r, players[turnInt].g, players[turnInt].b);
-        }
-        players[turnInt].position = isSpecialCase;
-      }
 
       //Check if we have won the game
 
       var winStr = "Player " + (players[turnInt].playerId + 1).toString();
       checkWin(players[turnInt].position, winStr);
-} 
+}
 
 
 //Check if a special case like a chutes or ladders
@@ -328,7 +320,7 @@ function doTurn() {
 // Single case update
 //paintCase(3, 255, 255, 0);
 
-function rng() {
+function diceRoll() {
   return Math.floor(Math.random() * 5)+ 1;
 }
 
