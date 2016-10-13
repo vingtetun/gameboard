@@ -46,6 +46,18 @@ let kBoard = {
 };
 
 
+//Creating Players
+var player1 = {playerId:0, position:1, r:255, g:0, b:0};
+var player2 = {playerId:1, position:1, r:0, g:0, b:255};
+var player3 = {playerId:2, position:1, r:255, g:140, b:0};
+
+//Add to Player Array
+var players = [];
+players.push(player1);
+players.push(player2);
+players.push(player3);
+
+
 //Player position global variables
 var player1position = 1;
 var player2position = 1;
@@ -232,96 +244,33 @@ function paintCases(begin, end, r, g, b) {
 //Turn Logic
 function turn(turnInt) {
 
-  switch (turnInt) {
-    case 0:
-      paintBorder(255,0,0);
-      var turnMove = rng();
-      //Debug Player 1 Position
-      console.log("Player 1 starts on: " + player1position);
-      console.log("Player 1 rolled a: " + turnMove);
-      console.log("Player 1 move to space #: " + (player1position + turnMove));
-      // Multiple case updates
-      paintCases(player1position, turnMove + player1position, 255, 0, 0);
-      //Update player position
-      player1position += turnMove;
+  
+    paintBorder(players[turnInt].r, players[turnInt].g, players[turnInt].b);
+    var turnMove = rng();
+    console.log("Player " + (players[turnInt].playerId +1) + " starts on: " + players[turnInt].position);
+    console.log("Player "  + (players[turnInt].playerId+1) + " rolled a: " + turnMove);
+    console.log("Player " + (players[turnInt].playerId+1) + " move to space #: " + (players[turnInt].position + turnMove));
+    paintCases(players[turnInt].position, turnMove + players[turnInt].position, players[turnInt].r, players[turnInt].g, players[turnInt].b);
+    players[turnInt].position += turnMove;
 
-      //Check to see if we landed on a chute or ladder, and if so, do an animation
-      var isSpecialCase = checkSpecialCase(player1position);
+    //Check to see if we landed on a chute or ladder, and if so, do an animation
+    var isSpecialCase = checkSpecialCase(players[turnInt].position);
       if (isSpecialCase) {
-        if (isSpecialCase < player1position) {
-          paintCases(isSpecialCase, isSpecialCase, 255, 0, 0);
+        if (isSpecialCase < players[turnInt].position) {
+          paintCases(isSpecialCase, isSpecialCase, players[turnInt].r, players[turnInt].g, players[turnInt].b);
           }
         else {
-        paintCases(player1position, isSpecialCase, 255, 0, 0);
+        paintCases(players[turnInt].position, isSpecialCase, players[turnInt].r, players[turnInt].g, players[turnInt].b);
         }
-        player1position = isSpecialCase;
+        players[turnInt].position = isSpecialCase;
       }
 
       //Check if we have won the game
-      checkWin(player1position, "Player 1");
-      break;
 
-    case 1:
-      paintBorder(0,0,255);
-      var turnMove = rng();
-      //Debug Player 2 Position
-      console.log("Player 2 starts on: " + player2position);
-      console.log("Player 2 rolled a: " + turnMove);
-      console.log("Player 2 move to space #: " + (player2position + turnMove));
-      // Multiple case updates
-      paintCases(player2position, turnMove + player2position, 0, 0, 255);
-      //Update player position
-      player2position += turnMove;
+      var winStr = "Player " + (players[turnInt].playerId + 1).toString();
+      checkWin(players[turnInt].position, winStr);
+} 
 
-      //Check to see if we landed on a chute or ladder, and if so, do an animation
-      var isSpecialCase = checkSpecialCase(player2position);
-      if (isSpecialCase) {
-        //We cannot paint backwards yet so we will just paint a square
-        if (isSpecialCase < player2position) {
-          paintCases(isSpecialCase, isSpecialCase, 0, 0, 255);
-          }
-
-        else {
-        paintCases(player2position, isSpecialCase, 0, 0, 255);
-      }
-
-
-        player2position = isSpecialCase;
-      }
-      //Check if we have won the game
-      checkWin(player2position, "Player 2");
-      break;
-
-    case 2:
-      paintBorder(255,140,0);
-      var turnMove = rng();
-      //Debug Player 3 Position
-      console.log("Player 3 starts on: " + player3position);
-      console.log("Player 3 rolled a: " + turnMove);
-      console.log("Player 3 move to space #: " + (player3position + turnMove));
-      // Multiple case updates
-      paintCases(player3position, turnMove + player3position, 255, 140, 0);
-      //Update player position
-      player3position += turnMove;
-
-      //Check to see if we landed on a chute or ladder, and if so, do an animation
-      var isSpecialCase = checkSpecialCase(player3position);
-      if (isSpecialCase) {
-       if (isSpecialCase < player3position) {
-         paintCases(isSpecialCase, isSpecialCase, 255, 140, 0);
-        }
-
-        else {
-        paintCases(player3position, isSpecialCase , 255, 140, 0);
-        }
-
-        player3position = isSpecialCase;
-      }
-
-      //Check if we have won the game
-      checkWin(player3position, "Player 3");
-  }
-}
 
 //Check if a special case like a chutes or ladders
 function checkSpecialCase (pos) {
@@ -360,13 +309,20 @@ function playGame() {
   }
 }
 
+
 var turnIncrement = 0;
 function doTurn() {
-  if (turnIncrement == 3) {
+  if (turnIncrement == players.length) {
     turnIncrement = 0;
   }
+  if (isGameWon == false) {
   turn(turnIncrement);
   turnIncrement+=1;
+  }
+
+  else {
+    alert("Indeed, someone has won so the game is over..");
+  }
 }
 
 // Single case update
