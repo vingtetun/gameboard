@@ -325,12 +325,11 @@ function turn(turnInt) {
 
 //Check if a special case like a chutes or ladders
 function checkSpecialCase (pos) {
-  for (var i=0; i<specialCases.length; i++) {
+  for (var i=0; i<specialCases.length; i+=2) {
     if (pos == specialCases[i]) {
         return specialCases[i+1];
         break;
     }
-    i= i+1;
   }
 }
 
@@ -361,6 +360,15 @@ function playGame() {
   }
 }
 
+var turnIncrement = 0;
+function doTurn() {
+  if (turnIncrement == 3) {
+    turnIncrement = 0;
+  }
+  turn(turnIncrement);
+  turnIncrement+=1;
+}
+
 // Single case update
 //paintCase(3, 255, 255, 0);
 
@@ -369,4 +377,4 @@ function rng() {
 }
 
 //Run the game timer
-playGame();
+//playGame();
