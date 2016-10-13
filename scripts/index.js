@@ -240,22 +240,50 @@ function paintCases(begin, end, r, g, b) {
   HardwareProxy.write(buffer);
 }
 
+//new function for updating cases
+function updateCases(sentBuffer, begin, end, r, g, b) {
+    let buffer = sentBuffer;
+    for (let i = begin; i <= end; i++) {
+      updateCase(buffer, i, r, g, b);
+    }
+
+  HardwareProxy.write(buffer);
+}
+
+//New function for updating buffer
+function updateBorder(sentBuffer,r, g, b) {
+  let buffer = sentBuffer;
+
+  // top border
+  updateBufferRow(buffer, 0, r, g, b);
+
+  // bottom border
+  updateBufferRow(buffer, kBoard.height - 1, r, g, b);
+
+  // left border
+  updateBufferColumn(buffer, 0, r, g, b);
+
+  // right border
+  updateBufferColumn(buffer, kBoard.width - 1, r, g, b);
+
+  HardwareProxy.write(buffer);
+}
+
 
 //Turn Logic
 function turn(turnInt) {
-
-
-    paintBorder(players[turnInt].r, players[turnInt].g, players[turnInt].b);
+    let turnBuffer = new Uint8Array(HardwareProxy.size());
+    updateBorder(turnBuffer, players[turnInt].r, players[turnInt].g, players[turnInt].b);
     var turnMove = diceRoll();
     console.log("Player " + (players[turnInt].playerId +1) + " starts on: " + players[turnInt].position);
     console.log("Player "  + (players[turnInt].playerId+1) + " rolled a: " + turnMove);
     console.log("Player " + (players[turnInt].playerId+1) + " move to space #: " + (players[turnInt].position + turnMove));
-    paintCases(players[turnInt].position, turnMove + players[turnInt].position, players[turnInt].r, players[turnInt].g, players[turnInt].b);
+    updateCases(turnBuffer, players[turnInt].position, turnMove + players[turnInt].position, players[turnInt].r, players[turnInt].g, players[turnInt].b);
     players[turnInt].position += turnMove;
 
     //Check to see if we landed on a chute or ladder, and if so, do an animation
     var isSpecialCase = checkSpecialCase(players[turnInt].position);
-          paintCases(isSpecialCase, isSpecialCase, players[turnInt].r, players[turnInt].g, players[turnInt].b);
+          updateCases(turnBuffer,isSpecialCase, isSpecialCase, players[turnInt].r, players[turnInt].g, players[turnInt].b);
 
       //Check if we have won the game
 
