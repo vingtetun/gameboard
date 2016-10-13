@@ -273,7 +273,15 @@ function updateBorder(sentBuffer,r, g, b) {
 //Turn Logic
 function turn(turnInt) {
     let turnBuffer = new Uint8Array(HardwareProxy.size());
+    //Show Border
     updateBorder(turnBuffer, players[turnInt].r, players[turnInt].g, players[turnInt].b);
+    
+    //Show Others' Players Current Position
+    for (var i = 0; i< players.length; i++) {
+      console.log(i);
+      updateCases(turnBuffer, players[i].position, players[i].position, players[i].r, players[i].g, players[i].b);
+    }
+
     var turnMove = diceRoll();
     console.log("Player " + (players[turnInt].playerId +1) + " starts on: " + players[turnInt].position);
     console.log("Player "  + (players[turnInt].playerId+1) + " rolled a: " + turnMove);
