@@ -97,7 +97,9 @@ const specialCases = [
   99, 61
 ];
 
-const victorySound = document.getElementById("victorySound"); 
+const victorySound = document.getElementById("victorySound");
+const chuteSound = document.getElementById("chuteSound");
+const ladderSound = document.getElementById("ladderSound");
 
 
 function getDestinations(player, move) {
@@ -111,6 +113,13 @@ function getDestinations(player, move) {
   for (let i = 0; i < specialCases.length; i += 2) {
     if (rv.regular == specialCases[i]) {
       rv.final = specialCases[i+1];
+      if (rv.final < rv.regular) {
+        chuteSound.play();
+      }
+
+      if (rv.final > rv.regular) {
+        ladderSound.play();
+      }
     }
   }
 
