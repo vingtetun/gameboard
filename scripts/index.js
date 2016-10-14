@@ -146,7 +146,7 @@ function checkIfPlayerHasWin(playerId) {
   try {
     victorySound.play();
     window.alert(msg);
-    endGameTimer = setTimeout("window.location.reload();", 500);
+    endGameTimer = setTimeout(startOver, 500);
   } catch(e) {
     console.log(msg);
   }
@@ -197,6 +197,7 @@ function blinkPlayerTurn() {
 
 
 function playAutomatedGame() {
+  disableAddPlayers();
   resolveTurn(getNextPlayer(), diceRoll());
   automationTimer = setTimeout(playAutomatedGame, 1000);
 }
@@ -208,17 +209,44 @@ function reallyStartGame() {
 }
 
 function doTurn() {
+  if (document.getElementById("p0button").disabled == false) {
+  disableAddPlayers();
+  }
   resolveTurn(getNextPlayer(), diceRoll());
+}
+
+function isPlaying(playerId) {
+  Players[playerId].active = true;
+}
+
+function disableAddPlayers() {
+  document.getElementById("playingHeader").innerHTML = "Game is in session. Start over to add players.";
+  document.getElementById("p0button").disabled = true;
+  document.getElementById("p1button").disabled = true;
+  document.getElementById("p2button").disabled = true;
+  document.getElementById("p3button").disabled = true;
+}
+
+function enableAddPlayers() {
+  document.getElementById("p0button").disabled = false;
+  document.getElementById("p1button").disabled = false;
+  document.getElementById("p2button").disabled = false;
+  document.getElementById("p3button").disabled = false;
+}
+
+function startOver () {
+  enableAddPlayers();
+  window.location.reload();
 }
 
 setup();
 
 KeyShortcuts.on('next', doTurn);
 
-Players[0].active = true;
-Players[1].active = true;
-Players[2].active = false;
-Players[3].active = true;
+//Players[0].active = true;
+//Players[1].active = true;
+//Players[2].active = false;
+//Players[3].active = true;
 reallyStartGame();
 
 //playAutomatedGame();
