@@ -7,7 +7,7 @@
 const Players = require('./scripts/players').Players;
 const Colors = require('./scripts/colors').Colors;
 const Composition = require('./scripts/composition').Composition;
-require('./scripts/key_shortcuts');
+const KeyShortcuts = require('./scripts/key_shortcuts').KeyShortcuts;
 
 function clear() {
   let compose = new Composition();
@@ -198,6 +198,8 @@ function doTurn() {
 }
 
 setup();
+
+KeyShortcuts.on('next', doTurn);
 
 Players[0].active = true;
 Players[1].active = true;
