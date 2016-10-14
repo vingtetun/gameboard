@@ -97,6 +97,9 @@ const specialCases = [
   99, 61
 ];
 
+const victorySound = document.getElementById("victorySound"); 
+
+
 function getDestinations(player, move) {
   let rv = {};
 
@@ -132,6 +135,7 @@ function checkIfPlayerHasWin(playerId) {
   // Would be much better to animate the borders with an animation
   let msg = 'Player ' + playerId + ' has won!';
   try {
+    victorySound.play();
     window.alert(msg);
     endGameTimer = setTimeout("window.location.reload();", 500);
   } catch(e) {
