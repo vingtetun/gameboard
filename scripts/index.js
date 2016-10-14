@@ -120,7 +120,7 @@ let playerTurn = 0;
 let gameHasStarted = false;
 
 function checkIfPlayerHasWin(playerId) {
-  let hasWin = Players[playerId].position === 100;
+  let hasWin = Players[playerId].position >= 100;
   if (!hasWin) {
     return;
   }
@@ -133,6 +133,7 @@ function checkIfPlayerHasWin(playerId) {
   let msg = 'Player ' + playerId + ' has won!';
   try {
     window.alert(msg);
+    endGameTimer = setTimeout("window.location.reload();", 500);
   } catch(e) {
     console.log(msg);
   }
@@ -182,9 +183,9 @@ function blinkPlayerTurn() {
 }
 
 
-function playGame() {
+function playAutomatedGame() {
   resolveTurn(getNextPlayer(), diceRoll());
-  automationTimer = setTimeout(playGame, 1000);
+  automationTimer = setTimeout(playAutomatedGame, 1000);
 }
 
 function reallyStartGame() {
@@ -207,4 +208,4 @@ Players[2].active = false;
 Players[3].active = true;
 reallyStartGame();
 
-playGame();
+//playAutomatedGame();
