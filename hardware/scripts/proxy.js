@@ -24,6 +24,8 @@ const HardwareProxy = (function HardwareProxy() {
   }
 
   function applyProtocol(inBuffer) {
+    'use strict';
+
     let outBuffer = new Uint8Array(
       Hardware.Constants.HeaderSize +
       (Hardware.Constants.Width * Hardware.Constants.Height * Hardware.Constants.PixelSize) +
@@ -70,11 +72,13 @@ const HardwareProxy = (function HardwareProxy() {
     return outBuffer;
   }
 
-  function write(buffer) {
+  function write(buffer, callback) {
+    'use strict';
+
     let msg = 'Buffer length (' + buffer.length + ') should be ' + size() + '.';
     assert(buffer.length === size(), msg);
 
-    Hardware.update(applyProtocol(buffer));
+    Hardware.update(applyProtocol(buffer), callback);
   }
 
   return {
