@@ -37,10 +37,10 @@
   <!--Choose the players -->
   <div class = "col-md-2">
   <h2 id="playingHeader"> Who's playing?</h2>
-  <button type="button" class="btn btn-success btn-block" id="p0button" onclick="isPlaying(0)">Player 0</button>
-  <button type="button" class="btn btn-primary btn-block" id="p1button" onclick="isPlaying(1)">Player 1</button> 
-  <button type="button" class="btn btn-warning btn-block" id="p2button" onclick="isPlaying(2)">Player 2</button>
-  <button type="button" class="btn btn-danger btn-block" id="p3button" onclick="isPlaying(3)">Player 3</button>
+  <button type="button" class="btn btn-success btn-block" id="p0button" onclick="this.disabled=true;isPlaying(0)">Player 0</button>
+  <button type="button" class="btn btn-primary btn-block" id="p1button" onclick="this.disabled=true;isPlaying(1)">Player 1</button> 
+  <button type="button" class="btn btn-warning btn-block" id="p2button" onclick="this.disabled=true;isPlaying(2)">Player 2</button>
+  <button type="button" class="btn btn-danger btn-block" id="p3button" onclick="this.disabled=true;isPlaying(3)">Player 3</button>
   </div>
   </div>
   <!--Game audio -->
