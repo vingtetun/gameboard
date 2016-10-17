@@ -17,44 +17,44 @@
     <!--
       Client code.
     -->
+    <script src="scripts/config.js" defer></script>
     <script src="scripts/key_shortcuts.js" defer></script>
+    <script src="scripts/sides.js" defer></script>
+    <script src="scripts/colors.js" defer></script>
+    <script src="scripts/remote_players.js" defer></script>
     <script src="scripts/players.js" defer></script>
     <script src="scripts/composition.js" defer></script>
-    <script src="scripts/colors.js" defer></script>
     <script src="scripts/index.js" defer></script>
+    <script src="scripts/ui.js" defer></script>
     <link rel="stylesheet" type="text/css" href="style/main.css">
   </head>
 
   <body>
-  <!--Button for starting automated gameplay -->
-  <div class = "row">
-  <div class = "col-md-7 col-md-offset-2">
-  <button type="button" class="btn btn-info btn-lg" onclick="playAutomatedGame()">Started Automated GamePlay</button>
-  <button type="button" class="btn btn-info btn-lg" onclick="doTurn()">Play a Turn</button>
-  <button type="button" class="btn btn-danger btn-lg" onclick="startOver()">Start Over</button>
-  </div>
+    <!--Button for starting automated gameplay -->
+    <div class = "row">
+      <div class = "col-md-7 col-md-offset-2">
+        <button type="button" class="btn btn-info btn-lg" onclick="doAutoplay()">Started Automated GamePlay</button>
+        <button type="button" class="btn btn-info btn-lg" onclick="doTurn()">Play a Turn</button>
+        <button type="button" class="btn btn-danger btn-lg" onclick="startOver()">Start Over</button>
+      </div>
 
-  <!--Choose the players -->
-  <div class = "col-md-2">
-  <h2 id="playingHeader"> Who's playing?</h2>
-  <button type="button" class="btn btn-success btn-block" id="p0button" onclick="this.disabled=true;isPlaying(0)">Player 0</button>
-  <button type="button" class="btn btn-primary btn-block" id="p1button" onclick="this.disabled=true;isPlaying(1)">Player 1</button> 
-  <button type="button" class="btn btn-warning btn-block" id="p2button" onclick="this.disabled=true;isPlaying(2)">Player 2</button>
-  <button type="button" class="btn btn-danger btn-block" id="p3button" onclick="this.disabled=true;isPlaying(3)">Player 3</button>
-  </div>
-  </div>
-  <!--Game audio -->
-  <audio id="victorySound">
-    <source src="media/victory.mp3" type="audio/mpeg">
-  </audio> 
+      <!--Choose the players -->
+      <div id="players-buttons-container" class = "col-md-2">
+        <h2 id="playingHeader"> Who's playing?</h2>
+      </div>
+    </div>
 
-  <audio id="chuteSound">
-    <source src="media/chute.mp3" type="audio/mpeg">
-  </audio> 
+    <!--Game audio -->
+    <audio id="victorySound">
+      <source src="media/victory.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="chuteSound">
+      <source src="media/chute.mp3" type="audio/mpeg">
+    </audio>
 
     <audio id="ladderSound">
-    <source src="media/ladder.mp3" type="audio/mpeg">
-  </audio> 
-
+      <source src="media/ladder.mp3" type="audio/mpeg">
+    </audio>
   <body>
 </html>

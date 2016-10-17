@@ -1,5 +1,7 @@
 'use strict';
 
+(function() {
+
 //
 // This is the main scrip to animate the board.
 //
@@ -8,6 +10,8 @@ const Players = require('./scripts/players').Players;
 const Colors = require('./scripts/colors').Colors;
 const Composition = require('./scripts/composition').Composition;
 const KeyShortcuts = require('./scripts/key_shortcuts').KeyShortcuts;
+const events = require('events');
+const eventEmitter = new events.EventEmitter();
 
 function clear() {
   let compose = new Composition();
@@ -97,11 +101,6 @@ const specialCases = [
   99, 61
 ];
 
-const victorySound = document.getElementById("victorySound");
-const chuteSound = document.getElementById("chuteSound");
-const ladderSound = document.getElementById("ladderSound");
-
-
 function getDestinations(player, move) {
   let rv = {};
 
@@ -114,11 +113,11 @@ function getDestinations(player, move) {
     if (rv.regular == specialCases[i]) {
       rv.final = specialCases[i+1];
       if (rv.final < rv.regular) {
-        chuteSound.play();
+        eventEmitter.emit('chute');
       }
 
       if (rv.final > rv.regular) {
-        ladderSound.play();
+        eventEmitter.emit('ladder');
       }
     }
   }
@@ -143,13 +142,9 @@ function checkIfPlayerHasWin(playerId) {
   // TODO
   // Would be much better to animate the borders with an animation
   let msg = 'Player ' + playerId + ' has won!';
-  try {
-    victorySound.play();
-    window.alert(msg);
-    endGameTimer = setTimeout(startOver, 500);
-  } catch(e) {
-    console.log(msg);
-  }
+  console.log(msg);
+
+  eventEmitter.emit('gameended', { playerId: playerId });
 }
 
 function diceRoll() {
@@ -195,58 +190,45 @@ function blinkPlayerTurn() {
   lastCompositionIsPainted = !lastCompositionIsPainted;
 }
 
-
-function playAutomatedGame() {
-  disableAddPlayers();
-  resolveTurn(getNextPlayer(), diceRoll());
-  automationTimer = setTimeout(playAutomatedGame, 1000);
-}
-
 function reallyStartGame() {
   gameHasStarted = true;
   blinkPlayerTurn();
   playerTurnTimer = setInterval(blinkPlayerTurn, 400);
+  eventEmitter.emit('gamestarted');
 }
 
-function doTurn() {
-  if (document.getElementById("p0button").disabled == false) {
-  disableAddPlayers();
+function ensureGameIsStarted() {
+  if (!gameHasStarted) {
+    reallyStartGame();
   }
-  resolveTurn(getNextPlayer(), diceRoll());
 }
 
-function isPlaying(playerId) {
-  Players[playerId].active = true;
+function playTurn() {
+  ensureGameIsStarted();
+  Players[getNextPlayer()].move(diceRoll());
 }
 
-function disableAddPlayers() {
-  document.getElementById("playingHeader").innerHTML = "Game is in session. Start over to add players.";
-  document.getElementById("p0button").disabled = true;
-  document.getElementById("p1button").disabled = true;
-  document.getElementById("p2button").disabled = true;
-  document.getElementById("p3button").disabled = true;
+function playAutomatedGame() {
+  ensureGameIsStarted();
+  playTurn();
+  automationTimer = setTimeout(playAutomatedGame, 1000);
 }
 
-function enableAddPlayers() {
-  document.getElementById("p0button").disabled = false;
-  document.getElementById("p1button").disabled = false;
-  document.getElementById("p2button").disabled = false;
-  document.getElementById("p3button").disabled = false;
-}
 
-function startOver () {
-  enableAddPlayers();
-  window.location.reload();
-}
+Players.events.on('playermove', function(data) {
+  ensureGameIsStarted();
+  resolveTurn(data.index, data.move);
+});
 
 setup();
 
-KeyShortcuts.on('next', doTurn);
+KeyShortcuts.on('next', playTurn);
 
-//Players[0].active = true;
-//Players[1].active = true;
-//Players[2].active = false;
-//Players[3].active = true;
-reallyStartGame();
+const Game = {
+  playAutomatedGame: playAutomatedGame,
+  playTurn: playTurn,
+  events: eventEmitter
+};
 
-//playAutomatedGame();
+exports.Game = Game;
+})();
