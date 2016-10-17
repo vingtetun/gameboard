@@ -5,18 +5,24 @@
   const events = require('events');
   const eventEmitter = new events.EventEmitter();
 
-  const Config = require('./config').Config;
+  let isLocalGame = true;
+  let connection = null;
 
-  const kURL = Config.service.url + ':' + Config.service.port;
-  const connection = new WebSocket(kURL);
-  connection.addEventListener('open', function(evt) {
-    console.log('connected to: ', kURL);
-  });
+  function tryRemoteConnect() {
+    const Config = require('./config').Config;
+    const kURL = Config.service.url + ':' + Config.service.port;
 
-  connection.addEventListener('message', function(evt) {
-    let json = JSON.parse(evt.data);
-    eventEmitter.emit('update', json);
-  });
+    connection = new WebSocket(kURL);
+    connection.addEventListener('open', function(evt) {
+      isLocalGame = false;
+      console.log('Running Remote Game.');
+    });
+
+    connection.addEventListener('message', function(evt) {
+      let json = JSON.parse(evt.data);
+      eventEmitter.emit('update', json);
+    });
+  }
 
   function activate(playerId) {
     let data = { index: playerId, physical: true };
@@ -34,7 +40,11 @@
   }
 
   function send(json) {
-    connection.send(JSON.stringify(json));
+    if (isLocalGame) {
+      eventEmitter.emit('update', json);
+    } else {
+      connection.send(JSON.stringify(json));
+    }
   }
 
   const RemotePlayers = {
@@ -44,5 +54,6 @@
     events: eventEmitter
   };
 
+  setTimeout(tryRemoteConnect);
   exports.RemotePlayers = RemotePlayers;
 })();
