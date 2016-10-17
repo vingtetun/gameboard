@@ -26,7 +26,11 @@
   };
 
   addEventListener('keypress', function(key) {
-    eventEmitter.emit('next');
+    switch (key.key) {
+      case 'ArrowRight':
+        eventEmitter.emit('next');
+        break;
+    }
   });
 
   exports.KeyShortcuts = eventEmitter;
