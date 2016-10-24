@@ -1,34 +1,34 @@
-'use strict';
+var WebSocketServer = require("ws").Server;
+var http = require("http");
+var express = require("express");
+var app = express();
+var port = process.env.PORT || 8001;
 
-const ws = require('nodejs-websocket')
+app.use(express.static(__dirname + "/../"))
 
-const kPort = 8001;
+var server = http.createServer(app)
+server.listen(port)
 
-function debug(str) {
-  console.log('Server: ', str);
-}
+console.log("http server listening on %d", port)
 
-const server = ws.createServer(function(connection) {
-  debug('Connection - New')
+var wss = new WebSocketServer({server: server})
+console.log("websocket server created")
 
-  connection.on('text', onText.bind(connection));
-  connection.on('close', onClose.bind(connection));
+function broadcast(data) {
+  wss.clients.forEach(function each(client) {
+    client.send(data);
+  });
+};
+
+wss.on("connection", function(ws) {
+  console.log("websocket connection open")
+
+  ws.on("message", function(data, flags) {
+    console.log('got message', data, flags)
+    broadcast(data);
+  });
+
+  ws.on("close", function() {
+    console.log("websocket connection close");
+  });
 });
-
-server.listen(kPort);
-
-function broadcast(server, msg) {
-  server.connections.forEach(function(connection) {
-    connection.send(msg);
-  })
-}
-
-function onClose(code, reason) {
-  debug('Connection: Closed');
-}
-
-function onText(str) {
-  debug('Received ' + str);
-  broadcast(server, str);
-}
-

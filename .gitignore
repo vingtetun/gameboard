@@ -2,3 +2,5 @@
 *.swo
 *.orig
 *.rej
+npm-debug.log
+node_modules/
