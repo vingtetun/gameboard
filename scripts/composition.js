@@ -221,16 +221,27 @@
     updateRightBorder(buffer, color);
   }
 
+   function lineEndArrow(buffer, id, color) {
+        var ledArray = getIdsForCase(id);
+        updateLedById(buffer, ledArray[1], color);
+        updateLedById(buffer, ledArray[3], color);
+        updateLedById(buffer, ledArray[5], color);
+        updateLedById(buffer, ledArray[7], color);
+  }
+
   function cell(buffer, id, color) {
-    getIdsForCase(id).forEach(function(id) {
-      updateLedById(buffer, id, color);
-    });
+     var ledArray = getIdsForCase(id);
+     for (var i = 3; i<ledArray.length-3; i++) {
+      updateLedById(buffer, ledArray[i], color);
+    }
   }
 
   function cells(buffer, begin ,end, color) {
     for (let i = begin; i <= end; i++) {
-      cell(buffer, i, color);
-    }
+       cell(buffer, i, color);
+     }
+ 
+    lineEndArrow(buffer, end, color);
   }
 
   function player(buffer, playerId, color) {
