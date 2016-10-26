@@ -1,5 +1,3 @@
-
-//sets ground pin to LOW and input pin to HIGH
 void setup()
 {
  Serial.begin(9600);
