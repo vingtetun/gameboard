@@ -244,6 +244,26 @@
     lineEndArrow(buffer, end, color);
   }
 
+  function playerDotPosition(buffer,id,color, playerId) {
+    var ledArray = getIdsForCase(id);
+    
+    if (playerId ==0) {
+      updateLedById(buffer, ledArray[0], color);
+    }
+ 
+    if (playerId ==1) {
+      updateLedById(buffer, ledArray[6], color);
+    }
+ 
+     if (playerId ==2) {
+      updateLedById(buffer, ledArray[8], color);
+    }
+
+    if (playerId ==3) {
+      updateLedById(buffer, ledArray[2], color);
+    }
+  }
+
   function player(buffer, playerId, color) {
     updatePlayerBorder(buffer, playerId, color);
   }
@@ -257,7 +277,7 @@
   function position(buffer, playerId) {
     let player = Players[playerId];
     if (player && player.active) {
-      cell(buffer, player.position, player.color);
+      playerDotPosition(buffer, player.position, player.color, playerId);
     }
   }
 
