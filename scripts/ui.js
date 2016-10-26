@@ -24,6 +24,7 @@ function enablePlayersButtons(enable) {
 }
 
 function togglePlayer(playerId) {
+  // TODO: Message game server to set number of players.
   this.disabled = !this.disabled;
   if (this.disabled) {
     RemotePlayers.activate(playerId);
@@ -39,6 +40,7 @@ RemotePlayers.events.on('update', function(json) {
 });
 
 function startOver () {
+  // TODO: Message game server to reset game state.
   enableAddPlayers();
   window.location.reload();
 }
