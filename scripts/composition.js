@@ -240,8 +240,6 @@
     for (let i = begin; i <= end; i++) {
        cell(buffer, i, color);
      }
- 
-    lineEndArrow(buffer, end, color);
   }
 
   function playerDotPosition(buffer,id,color, playerId) {
@@ -302,6 +300,7 @@
     this.borders = borders.bind(this, buffer);
     this.cell = cell.bind(this, buffer);
     this.cells = cells.bind(this, buffer);
+    this.lineEndArrow = lineEndArrow.bind(this,buffer);
     this.player = player.bind(this, buffer);
     this.players = players.bind(this, buffer);
     this.position = position.bind(this, buffer);
