@@ -53,6 +53,10 @@ function doTurn() {
   Game.playTurn();
 }
 
+function playCheckers () {
+  Game.playCheckers();
+}
+
 function createPlayersButton() {
   let colors = [
     'success',

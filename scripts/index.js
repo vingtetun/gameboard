@@ -223,6 +223,22 @@ function playAutomatedGame() {
   automationTimer = setTimeout(playAutomatedGame, 1000);
 }
 
+function playCheckers() {
+  let playerCheckers = Players[0];
+  let compose = new Composition();
+  for (var i =0; i<20; i++) {
+    compose.checker(i, playerCheckers.color);
+  }
+}
+
+function initializeCheckerBoard() {
+  var activeCheckers = [];
+  for (var i = 0; i<20; i++) {
+    var temp = new Checker(i, i+1, "red");
+    activeCheckers.push(temp);
+  }
+}
+
 
 Players.events.on('playermove', function(data) {
   ensureGameIsStarted();
@@ -236,6 +252,7 @@ KeyShortcuts.on('next', playTurn);
 const Game = {
   playAutomatedGame: playAutomatedGame,
   playTurn: playTurn,
+  playCheckers: playCheckers,
   events: eventEmitter
 };
 

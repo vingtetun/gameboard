@@ -262,6 +262,13 @@
     }
   }
 
+  function checker(buffer, id, color) {
+         var ledArray = getIdsForCase(id);
+     for (var i = 0; i<ledArray.length; i++) {
+      updateLedById(buffer, ledArray[i], color);
+    }
+  }
+
   function player(buffer, playerId, color) {
     updatePlayerBorder(buffer, playerId, color);
   }
@@ -301,6 +308,7 @@
     this.cell = cell.bind(this, buffer);
     this.cells = cells.bind(this, buffer);
     this.lineEndArrow = lineEndArrow.bind(this,buffer);
+    this.checker =checker.bind(this,buffer);
     this.player = player.bind(this, buffer);
     this.players = players.bind(this, buffer);
     this.position = position.bind(this, buffer);
