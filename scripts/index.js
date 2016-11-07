@@ -12,6 +12,7 @@ const Composition = require('./scripts/composition').Composition;
 const KeyShortcuts = require('./scripts/key_shortcuts').KeyShortcuts;
 const events = require('events');
 const eventEmitter = new events.EventEmitter();
+var checkerOption = 0;
 
 function clear() {
   let compose = new Composition();
@@ -25,7 +26,7 @@ function clearTimers() {
 }
 
 function setup() {
-  clear();
+ // clear();
 
   let compose = new Composition();
   compose.borders(Colors.white);
@@ -54,10 +55,12 @@ Players.events.on('statechange', function(data) {
   } else {
     player.active = onBoard;
 
+    if (checkerOption != 1) {
     let compose = new Composition();
     compose.borders(Colors.white);
     compose.players();
     compose.commit();
+  }
   }
 });
 
@@ -224,16 +227,26 @@ function playAutomatedGame() {
 }
 
 function playCheckers() {
+  alert("This worked");
   let playerCheckers = Players[0];
+  console.log(playerCheckers);
   let compose = new Composition();
-  for (var i =0; i<20; i++) {
-    compose.checker(i, playerCheckers.color);
+  for (var i =1; i<21; i=i+2) {
+    console.log(i);
+    compose.checker(i, Colors.red);
+    compose.commit();
+  }
+
+  for (var i =99; i>80; i=i-2) {
+    console.log(i);
+    compose.checker(i, Colors.blue);
+    compose.commit();
   }
 }
 
 function initializeCheckerBoard() {
   var activeCheckers = [];
-  for (var i = 0; i<20; i++) {
+  for (var i = 1; i<20; i++) {
     var temp = new Checker(i, i+1, "red");
     activeCheckers.push(temp);
   }
@@ -245,7 +258,7 @@ Players.events.on('playermove', function(data) {
   resolveTurn(data.index, data.move);
 });
 
-setup();
+//setup();
 
 KeyShortcuts.on('next', playTurn);
 
