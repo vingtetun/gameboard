@@ -14,6 +14,14 @@ const events = require('events');
 const eventEmitter = new events.EventEmitter();
 var checkerOption = 0;
 
+var Checker = function(id,position,color) {
+  console.log('instance created');
+  this.id = id;
+  this.position = position;
+  this.color = color;
+  this.status = "regular";
+  };
+
 function clear() {
   let compose = new Composition();
   compose.all(Colors.black);
@@ -244,11 +252,49 @@ function playCheckers() {
   }
 }
 
-function initializeCheckerBoard() {
-  var activeCheckers = [];
-  for (var i = 1; i<20; i++) {
-    var temp = new Checker(i, i+1, "red");
+var activeCheckers = [];
+
+function initializeCheckerboard() {
+  var checkerId = 0;
+  for (var i = 1; i<21; i=i+2) {
+    var temp = new Checker(checkerId, i, "red");
+    console.log("color: " + temp.color);
     activeCheckers.push(temp);
+    checkerId = checkerId + 1;
+  }
+
+  for (var i=99; i>80; i=i-2) {
+    var temp = new Checker(checkerId, i, "blue");
+    activeCheckers.push(temp);
+    console.log("color: " + temp.color);
+    checkerId = checkerId + 1;
+  }
+
+  paintCheckerBoard();
+}
+
+function paintCheckerBoard() {
+  let compose = new Composition();
+  console.log("reached paint function");
+  console.log("This is the length: " + activeCheckers.length);
+  for (var i =0; i<activeCheckers.length; i++) {
+      var temp = activeCheckers[i];
+      console.log("SUP");
+      if (activeCheckers[i].color == "red") {
+            console.log("Got a red");
+            console.log("Position: " + activeCheckers[i].position);
+            console.log("Id: " + activeCheckers[i].id);
+            compose.checker(activeCheckers[i].position, Colors.red);             
+            compose.commit();
+      }
+
+    if (activeCheckers[i].color == "blue") {
+            console.log("Got a blue");
+            console.log("Position: " + activeCheckers[i].position);
+            console.log("Id: " + activeCheckers[i].id);
+            compose.checker(activeCheckers[i].position, Colors.blue);             
+            compose.commit();
+      }
   }
 }
 
@@ -265,7 +311,7 @@ KeyShortcuts.on('next', playTurn);
 const Game = {
   playAutomatedGame: playAutomatedGame,
   playTurn: playTurn,
-  playCheckers: playCheckers,
+  initializeCheckerboard: initializeCheckerboard,
   events: eventEmitter
 };
 

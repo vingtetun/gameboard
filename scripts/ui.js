@@ -53,8 +53,8 @@ function doTurn() {
   Game.playTurn();
 }
 
-function playCheckers () {
-  Game.playCheckers();
+function initializeCheckerboard () {
+  Game.initializeCheckerboard();
 }
 
 function createPlayersButton() {
