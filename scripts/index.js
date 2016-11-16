@@ -234,23 +234,13 @@ function playAutomatedGame() {
   automationTimer = setTimeout(playAutomatedGame, 1000);
 }
 
-function playCheckers() {
-  alert("This worked");
-  let playerCheckers = Players[0];
-  console.log(playerCheckers);
-  let compose = new Composition();
-  for (var i =1; i<21; i=i+2) {
-    console.log(i);
-    compose.checker(i, Colors.red);
-    compose.commit();
-  }
+//function printMousePos(event) {
+  //document.body.textContent =
+    //"clientX: " + event.clientX +
+    //" - clientY: " + event.clientY;
+//}
 
-  for (var i =99; i>80; i=i-2) {
-    console.log(i);
-    compose.checker(i, Colors.blue);
-    compose.commit();
-  }
-}
+document.addEventListener("click", printMousePos);
 
 var activeCheckers = [];
 
@@ -296,6 +286,28 @@ function paintCheckerBoard() {
             compose.commit();
       }
   }
+}
+
+//This is the event that will be triggered by a 2nd click
+function checkersTurn(activeCheckerId, newPosition) {
+    var thisTurnChecker;
+    for (var i =0; i<activeCheckers.length; i++) {
+      if (activeCheckers[i].id == activeCheckerId) {
+        activeCheckers[i].position = newPosition;
+        thisTurnChecker = activeCheckers[i];
+      }
+
+      //If there is another checker in the same position
+      if ((activeCheckers[i].position == thisTurnChecker.position) && (activeCheckers[i].id != thisTurnChecker.if)) {
+        
+        //Remove that checker from the array
+        activeCheckers.splice(i, 1);
+        //Play sad sound and update checkers total: TODO
+      }
+
+    }
+    //Repaint the checker board
+    paintCheckerBoard();
 }
 
 
