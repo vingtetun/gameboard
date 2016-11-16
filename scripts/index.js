@@ -234,14 +234,6 @@ function playAutomatedGame() {
   automationTimer = setTimeout(playAutomatedGame, 1000);
 }
 
-//function printMousePos(event) {
-  //document.body.textContent =
-    //"clientX: " + event.clientX +
-    //" - clientY: " + event.clientY;
-//}
-
-document.addEventListener("click", printMousePos);
-
 var activeCheckers = [];
 
 function initializeCheckerboard() {
@@ -286,6 +278,22 @@ function paintCheckerBoard() {
             compose.commit();
       }
   }
+}
+
+//Checkers turn event
+// Function to change the content of t2
+function getCheckerCaseId(checkerId) {
+  alert(checkerId);
+
+}
+
+// add event listener to all cases
+var checkersCases = document.getElementsByClassName("case");
+
+//Initialize event listeners
+for (var i=0; i<checkersCases.length; i++) {
+var tempId = checkersCases[i].id;
+checkersCases[i].addEventListener("click", function(){ getCheckerCaseId(tempId); });
 }
 
 //This is the event that will be triggered by a 2nd click
