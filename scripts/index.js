@@ -255,6 +255,8 @@ function initializeCheckerboard() {
   paintCheckerBoard();
 }
 
+
+
 function paintCheckerBoard() {
   let compose = new Composition();
   console.log("reached paint function");
@@ -267,7 +269,6 @@ function paintCheckerBoard() {
             console.log("Position: " + activeCheckers[i].position);
             console.log("Id: " + activeCheckers[i].id);
             compose.checker(activeCheckers[i].position, Colors.red);             
-            compose.commit();
       }
 
     if (activeCheckers[i].color == "blue") {
@@ -275,9 +276,12 @@ function paintCheckerBoard() {
             console.log("Position: " + activeCheckers[i].position);
             console.log("Id: " + activeCheckers[i].id);
             compose.checker(activeCheckers[i].position, Colors.blue);             
-            compose.commit();
       }
+
+
   }
+
+  compose.commit();
 }
 
 
@@ -295,13 +299,22 @@ function getCheckerCaseId() {
   var last2 = str.slice(-2);
   var idInt = parseInt(last2);
 
+  if (idInt <10) {
+      currentChecker = 11-currentChecker;
+    }
+
+  if (idInt <31 && idInt>20) {
+      idInt = (31-idInt) + 20;
+    }
+
+
+
   if (currentChecker == 0) {
     currentChecker = 100-idInt;
   }
 
   else  {
     moveTo = 100-idInt;
-    alert(moveTo);
     alert("Current Checker ID: " + currentChecker);
     alert("move Checker ID: " + moveTo);
     checkersTurn(currentChecker,moveTo);
