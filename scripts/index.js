@@ -295,17 +295,16 @@ function getCheckerCaseId() {
   var last2 = str.slice(-2);
   var idInt = parseInt(last2);
 
-  alert("Current Checker ID: " + currentChecker);
-  alert("move Checker ID: " + moveTo);
-
   if (currentChecker == 0) {
-    currentChecker = idInt;
+    currentChecker = 100-idInt;
   }
 
   else  {
-    moveTo = idInt;
+    moveTo = 100-idInt;
     alert(moveTo);
-    checkersTurn(100-currentChecker,100-moveTo);
+    alert("Current Checker ID: " + currentChecker);
+    alert("move Checker ID: " + moveTo);
+    checkersTurn(currentChecker,moveTo);
   }
 
 
@@ -321,28 +320,28 @@ checkersCases[i].addEventListener("click", getCheckerCaseId);
 
 //This is the event that will be triggered by a 2nd click
 function checkersTurn(activeCheckerId, newPosition) {
-    alert("Did this happen?");
     currentChecker = 0;
     moveTo = 0;
     var thisTurnChecker=0;
     for (var i =0; i<activeCheckers.length; i++) {
-      if (activeCheckers[i].id == activeCheckerId.toString()) {
-        alert("Is this happening?");
+      if (activeCheckers[i].position == activeCheckerId) {
         activeCheckers[i].position = newPosition;
-        thisTurnChecker = activeCheckers[i];
+        alert("New position: " + activeCheckers[i].position);
+        //Repaint the checker board
+        paintCheckerBoard();
+
+       // thisTurnChecker = activeCheckers[i];
       }
 
       //If there is another checker in the same position
-      if ((activeCheckers[i].position == thisTurnChecker.position) && (activeCheckers[i].id != thisTurnChecker.if)) {
+     // if ((activeCheckers[i].position == thisTurnChecker.position) && (activeCheckers[i].id != thisTurnChecker.if)) {
         
         //Remove that checker from the array
-        activeCheckers.splice(i, 1);
+     //   activeCheckers.splice(i, 1);
         //Play sad sound and update checkers total: TODO
-      }
+    //  }
 
     }
-    //Repaint the checker board
-    paintCheckerBoard();
 }
 
 
