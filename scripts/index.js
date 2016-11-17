@@ -280,10 +280,34 @@ function paintCheckerBoard() {
   }
 }
 
+
+
+//Global variable for checker turns
+var currentChecker = 0;
+var moveTo = 0;
+
 //Checkers turn event
 // Function to change the content of t2
-function getCheckerCaseId(checkerId) {
-  alert(checkerId);
+function getCheckerCaseId() {
+  //alert(this.id);
+  var str = "";
+  str = this.id.toString();
+  var last2 = str.slice(-2);
+  var idInt = parseInt(last2);
+
+  alert("Current Checker ID: " + currentChecker);
+  alert("move Checker ID: " + moveTo);
+
+  if (currentChecker == 0) {
+    currentChecker = idInt;
+  }
+
+  else  {
+    moveTo = idInt;
+    alert(moveTo);
+    checkersTurn(100-currentChecker,100-moveTo);
+  }
+
 
 }
 
@@ -291,16 +315,19 @@ function getCheckerCaseId(checkerId) {
 var checkersCases = document.getElementsByClassName("case");
 
 //Initialize event listeners
-for (var i=0; i<checkersCases.length; i++) {
-var tempId = checkersCases[i].id;
-checkersCases[i].addEventListener("click", function(){ getCheckerCaseId(tempId); });
+for (var i=0; i<checkersCases.length-1; i++) {
+checkersCases[i].addEventListener("click", getCheckerCaseId);
 }
 
 //This is the event that will be triggered by a 2nd click
 function checkersTurn(activeCheckerId, newPosition) {
-    var thisTurnChecker;
+    alert("Did this happen?");
+    currentChecker = 0;
+    moveTo = 0;
+    var thisTurnChecker=0;
     for (var i =0; i<activeCheckers.length; i++) {
-      if (activeCheckers[i].id == activeCheckerId) {
+      if (activeCheckers[i].id == activeCheckerId.toString()) {
+        alert("Is this happening?");
         activeCheckers[i].position = newPosition;
         thisTurnChecker = activeCheckers[i];
       }
