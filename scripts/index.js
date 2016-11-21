@@ -290,6 +290,142 @@ function paintCheckerBoard() {
 var currentChecker = 0;
 var moveTo = 0;
 
+var boardRules = [];
+var squareRules = function(id,d1,d2) {
+  this.id = id;
+  this.d1 = d1;
+  this.d2 = d2;
+  };
+
+
+//Creating Square Rules
+for (var i =1; i<101; i=i+2) {
+
+  var d1;
+  var d2;
+
+  if (i<11) {
+    if (i==1) {
+      d1 = 0;
+      d2 = 19;
+    }
+
+    else {
+      d1 = (20-i) + 2;
+      d2 = 20-i;
+    }
+  }
+
+  if (i>10 && i<21) {
+
+    if (i==11) {
+      d1=29;
+      d2=0;
+    }
+
+    else {
+    d1 = (30-i) + 10;
+    d2 = (30-i) + 12;
+  }
+  }
+
+  if (i>20 && i<31) {
+    if (i==21) {
+      d1 = 0;
+      d2 = 39;
+    }
+
+    else {
+      d1 = (40-i) + 22;
+      d2 = 40-i +20;
+    }
+  }
+
+  if (i>30 && i<41) {
+
+    if(i==31) {
+      d1 = 0;
+      d2 = 49;
+    }
+
+    else {
+    d1 = (50-i) + 30;
+    d2 = (50-i) + 32;
+    }
+  }
+
+  if (i>40 && i<51) {
+    if (i==41) {
+      d1 = 0;
+      d2 = 59;
+    }
+
+    else {
+      d1 = (60-i) + 42;
+      d2 = 60-i +40;
+    }
+  }
+
+if (i>50 && i<61) {
+
+    if (i == 51) {
+      d1 = 0;
+      d2 = 69;
+    }
+
+    else {
+    d1 = (70-i) + 50;
+    d2 = (70-i) + 52;
+    }
+  }
+
+
+if (i>60 && i<71) {
+    if (i==61) {
+      d1 = 0;
+      d2 = 79;
+    }
+
+    else {
+      d1 = (80-i) + 62;
+      d2 = 80-i +60;
+    }
+  }
+
+
+if (i>70 && i<81) {
+
+    if (i==71) {
+      d1 = 0;
+      d2 = 89;
+    }
+
+    else {
+    d1 = (80-i) + 70;
+    d2 = (80-i) + 72;
+    }
+  }
+
+if (i>80 && i<91) {
+    if (i==81) {
+      d1 = 0;
+      d2 = 99;
+    }
+
+    else {
+      d1 = (90-i) + 72;
+      d2 = 90-i +70;
+    }
+  }
+
+  var temp = new squareRules(i, d1, d2);
+  //alert ("Created  new rule: " + i + " " + d1 + " " +d2);
+  boardRules.push(temp);
+
+}
+
+
+
 //Checkers turn event
 // Function to change the content of t2
 function getCheckerCaseId() {
@@ -349,6 +485,18 @@ checkersCases[i].addEventListener("click", getCheckerCaseId);
 function checkersTurn(activeCheckerId, newPosition) {
     currentChecker = 0;
     moveTo = 0;
+
+   // for (var i = 0; i< boardRules.length; i++) {
+    //    if (i.id == activeCheckerId) {
+    //      if (i.d1 < newPosition && i.d2 < newPosition) {
+    //        for (var j =0; j<activeCheckers.length; j++) {
+    //         if (activeCheckers[i].position == )
+    //       }
+    //      }
+    //    }
+ //   }
+
+
     var thisTurnChecker=0;
     for (var i =0; i<activeCheckers.length; i++) {
       if (activeCheckers[i].position == activeCheckerId) {
