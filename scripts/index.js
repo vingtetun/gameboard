@@ -298,23 +298,37 @@ function getCheckerCaseId() {
   str = this.id.toString();
   var last2 = str.slice(-2);
   var idInt = parseInt(last2);
+  idInt = 100-idInt;
 
-  if (idInt <10) {
-      currentChecker = 11-currentChecker;
+  if (idInt <=10) {
+      var temp = Math.abs(11-idInt);
+      idInt = temp;
     }
 
   if (idInt <31 && idInt>20) {
-      idInt = (31-idInt) + 20;
-    }
+     idInt = Math.abs(31-idInt) + 20;
+   }
+
+  if (idInt <51 && idInt>40) {
+     idInt = Math.abs(51-idInt) + 40;
+   }
+
+  if (idInt <71 && idInt>60) {
+     idInt = Math.abs(71-idInt) + 60;
+   }
+
+  if (idInt <91 && idInt>80) {
+     idInt = Math.abs(91-idInt) + 80;
+   }
 
 
 
   if (currentChecker == 0) {
-    currentChecker = 100-idInt;
+    currentChecker = idInt;
   }
 
   else  {
-    moveTo = 100-idInt;
+    moveTo = idInt;
     alert("Current Checker ID: " + currentChecker);
     alert("move Checker ID: " + moveTo);
     checkersTurn(currentChecker,moveTo);
