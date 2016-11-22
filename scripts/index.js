@@ -486,37 +486,43 @@ function checkersTurn(activeCheckerId, newPosition) {
     currentChecker = 0;
     moveTo = 0;
 
-   // for (var i = 0; i< boardRules.length; i++) {
-    //    if (i.id == activeCheckerId) {
-    //      if (i.d1 < newPosition && i.d2 < newPosition) {
-    //        for (var j =0; j<activeCheckers.length; j++) {
-    //         if (activeCheckers[i].position == )
-    //       }
-    //      }
-    //    }
- //   }
+    var selectedChecker;
+    var selectedCheckerPos;
+    var newPos;
 
-
-    var thisTurnChecker=0;
     for (var i =0; i<activeCheckers.length; i++) {
       if (activeCheckers[i].position == activeCheckerId) {
-        activeCheckers[i].position = newPosition;
-        alert("New position: " + activeCheckers[i].position);
-        //Repaint the checker board
-        paintCheckerBoard();
-
-       // thisTurnChecker = activeCheckers[i];
+        selectedChecker = activeCheckers[i];
+        selectedCheckerPos = i;
       }
-
-      //If there is another checker in the same position
-     // if ((activeCheckers[i].position == thisTurnChecker.position) && (activeCheckers[i].id != thisTurnChecker.if)) {
-        
-        //Remove that checker from the array
-     //   activeCheckers.splice(i, 1);
-        //Play sad sound and update checkers total: TODO
-    //  }
-
     }
+
+    for (var i = 0; i< boardRules.length; i++) {
+        if (boardRules[i].id == selectedChecker.position) {
+          alert("Found a match: " + boardRules[i].id + " " +selectedChecker.position);
+          //Looks like a jump happened
+          if (boardRules[i].d1 < newPosition && boardRules[i].d2 < newPosition) {
+            alert("d1: " + boardRules[i].d1 + "d2: " + boardRules[i].d2 +  "np: " + newPosition+ "Detected jump");
+            // Go through active checkers and ID the checker
+            for (var j =0; j<activeCheckers.length; j++) {
+              //If you found a checker of a different color in a d1 position
+             if (activeCheckers[j].position == boardRules[i].d1 && activeCheckers[j].color != selectedChecker.color ) {
+                //Delete the checker that you jumped over
+                 activeCheckers.splice(j, 1);
+              }
+              //If you found a checker of a different color in a d2 position
+              else if (activeCheckers[j].position == boardRules[i].d2 && activeCheckers[j].color != selectedChecker.color ) {
+                //Delete the checker that you jumped over
+                 activeCheckers.splice(j, 1);
+              }
+           }
+          }
+        }
+    }
+
+    activeCheckers[selectedCheckerPos].position = newPosition;
+    //alert("New position: " + activeCheckers[selectedCheckerPos].position);
+    paintCheckerBoard();
 }
 
 
