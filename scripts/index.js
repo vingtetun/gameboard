@@ -10,6 +10,7 @@ const Players = require('./scripts/players').Players;
 const Colors = require('./scripts/colors').Colors;
 const Composition = require('./scripts/composition').Composition;
 const KeyShortcuts = require('./scripts/key_shortcuts').KeyShortcuts;
+var SpecialCases = require('./scripts/special_cases');
 const events = require('events');
 const eventEmitter = new events.EventEmitter();
 var checkerOption = 0;
@@ -35,7 +36,6 @@ function clearTimers() {
 
 function setup() {
  // clear();
-
   let compose = new Composition();
   compose.borders(Colors.white);
   compose.commit();
@@ -123,7 +123,6 @@ const specialCases = [
 
 function getDestinations(player, move) {
   let rv = {};
-
   // Do dice/spinner move
   rv.regular = Math.min(player.position + move, 100);
 
