@@ -458,7 +458,7 @@
   )
 
   (module Socket_Strips:Socket_Strip_Straight_1x15 (layer F.Cu) (tedit 0) (tstamp 5848A60B)
-    (at 106.633333 72.115)
+    (at 107.903333 134.345)
     (descr "Through hole socket strip")
     (tags "socket strip")
     (path /5848AFF6)
@@ -517,7 +517,7 @@
   )
 
   (module Socket_Strips:Socket_Strip_Straight_1x15 (layer F.Cu) (tedit 0) (tstamp 5848A61E)
-    (at 106.633333 80.165)
+    (at 107.903333 142.395)
     (descr "Through hole socket strip")
     (tags "socket strip")
     (path /5848B2B9)
